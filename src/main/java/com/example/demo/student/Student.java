@@ -2,6 +2,10 @@ package com.example.demo.student;
 import java.beans.BeanProperty;
 //import java.beans.Transient;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
+import javax.persistence.ManyToMany;
+import com.example.demo.subject.Subject;
 import jdk.jfr.DataAmount;
 import lombok.Data;
 import javax.persistence.Entity;
@@ -11,7 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Column;
 import javax.persistence.Transient;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Data
@@ -22,6 +26,14 @@ public class Student {
     private long id;
     @Column(name = "Student_name", nullable=false)
     private String name;
+
+    public Set<Subject> getSubjects() {
+        return subjects;
+    }
+
+    @JsonIgnore
+    @ManyToMany(mappedBy = "enrolledStudents")
+    private Set<Subject> subjects = new HashSet<Subject>();
 
     private LocalDate dob;
     private String email;
